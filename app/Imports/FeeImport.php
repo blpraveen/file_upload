@@ -21,7 +21,7 @@ use Maatwebsite\Excel\Concerns\WithStartRow;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class FeeImport implements ToCollection,WithStartRow , WithChunkReading, ShouldQueue
+class FeeImport implements ToCollection,WithStartRow,WithChunkReading,ShouldQueue
 {
     private $rows = 0;
     private $row_data = [];
@@ -35,7 +35,6 @@ class FeeImport implements ToCollection,WithStartRow , WithChunkReading, ShouldQ
                 $this->update_row_data($row);
                 
                 list($common,$amount) = $this->transaction_type();
-                
                 $module_name = $this->get_module_name();
                 #$fc_trans = ['rcpt','revrcpt','jv','revjv','pmt','revpmt','fundtransfer'];
 
@@ -45,7 +44,6 @@ class FeeImport implements ToCollection,WithStartRow , WithChunkReading, ShouldQ
                 $fee_db = FeeCategory::whereRaw('LOWER(`name`) = ? ',strtolower($this->row_data['fee_c']))->first();
                 $faculty_db = Branch::whereRaw('LOWER(`name`) = ? ',strtolower($this->row_data['faculty_c']))->first();
                 $entry_mode_db = EntryMode::whereRaw('LOWER(`entry_mode_name`) = ? ',strtolower($this->row_data['entry_mode']))->first();
-
 
                 
                 $inactive = $fee_category_id = $branch_id =  $fee_type_id = $module_id = $entry_mode_db_id= null;
@@ -239,7 +237,6 @@ class FeeImport implements ToCollection,WithStartRow , WithChunkReading, ShouldQ
         $this->row_data['fee_head'] = $this->format_string($this->row_data['fee_head']);
         $this->row_data['entry_mode'] = $this->format_string($this->row_data['entry_mode']);
         $this->row_data['fee_c'] = $this->format_string($this->row_data['fee_c']);
-        $this->row_data['entry_mode'] = $this->row_data['fee_head'];
     }
 
     function batchSize(): int
