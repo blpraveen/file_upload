@@ -112,7 +112,7 @@ class FeeImport implements ToCollection,WithStartRow,WithChunkReading,ShouldQueu
                         $result = DB::table('common_fee_collection_headwises')->selectRaw('sum(amount) as total')->where('receipt_id',$receipt_id)->get()->toArray();
                         $result = json_decode(json_encode($result), true);
                         $total_amount = $result[0]['total'];
-                        CommonFeeCollectionHeadwise::where('receipt_id', $receipt_id)
+                        CommonFeeCollectionHeadwise::where('id', $receipt_id)
                             ->update([
                                 'amount' => $total_amount
                                 ]);
