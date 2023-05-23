@@ -178,37 +178,37 @@ class FeeImport implements ToCollection,WithStartRow , WithChunkReading, ShouldQ
     function transaction_type(){
         $amount = 0;
         $common = true;
-        if($this->row_data['due_amount'] > 0) {
+        if($this->row_data['due_amount'] != 0) {
             $common = false;
         }
-        if($this->row_data['paid_amount'] > 0 ){
-            $amount = $this->row_data['paid_amount'];
+        if($this->row_data['paid_amount'] != 0 ){
+            $amount = (int) $this->row_data['paid_amount'];
         }
-        if($this->row_data['concession_amount'] > 0 ){
-            $amount = $this->row_data['concession_amount'];
+        if($this->row_data['concession_amount'] != 0 ){
+            $amount = (int) $this->row_data['concession_amount'];
             $common = false;
         }
-        if($this->row_data['scholarship_amount'] > 0 ){
-            $amount = $this->row_data['scholarship_amount'];
+        if($this->row_data['scholarship_amount'] != 0 ){
+            $amount = (int) $this->row_data['scholarship_amount'];
             $common = false;
         }
-        if($this->row_data['reverse_concession_amount'] > 0 ){
-            $amount = $this->row_data['reverse_concession_amount'];
+        if($this->row_data['reverse_concession_amount'] != 0 ){
+            $amount = (int) $this->row_data['reverse_concession_amount'];
             $common = false;
         }
-        if($this->row_data['write_off_amount'] > 0 ){
-            $amount = $this->row_data['write_off_amount'];
+        if($this->row_data['write_off_amount'] != 0 ){
+            $amount = (int) $this->row_data['write_off_amount'];
             $common = false;
             
         }
-        if($this->row_data['adjusted_amount'] > 0 ){
-            $amount = $this->row_data['adjusted_amount'];
+        if($this->row_data['adjusted_amount'] != 0 ){
+            $amount = (int) $this->row_data['adjusted_amount'];
         }
-        if($this->row_data['refund_amount'] > 0 ){
-            $amount = $this->row_data['refund_amount'];
+        if($this->row_data['refund_amount'] != 0 ){
+            $amount = (int) $this->row_data['refund_amount'];
         }
-        if($this->row_data['fund_trancfer_amount'] > 0 ){
-            $amount = $this->row_data['fund_trancfer_amount'];
+        if($this->row_data['fund_transfer_amount'] != 0 ){
+            $amount = (int) $this->row_data['fund_transfer_amount'];
         }
         return [$common,$amount];
     }
@@ -233,7 +233,7 @@ class FeeImport implements ToCollection,WithStartRow , WithChunkReading, ShouldQ
         $this->row_data['write_off_amount'] = $row[22];
         $this->row_data['adjusted_amount'] = $row[23];
         $this->row_data['refund_amount'] = $row[24];
-        $this->row_data['fund_trancfer_amount'] = $row[25];
+        $this->row_data['fund_transfer_amount'] = $row[25];
         
         $this->row_data['faculty_c'] = $this->format_string($this->row_data['faculty_c']);
         $this->row_data['fee_head'] = $this->format_string($this->row_data['fee_head']);
