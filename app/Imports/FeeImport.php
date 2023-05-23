@@ -64,9 +64,9 @@ class FeeImport implements ToCollection,WithStartRow,WithChunkReading,ShouldQueu
                         $fee_c_id = $fee_head_db['id'];
                         $fee_type_db = FeeType::where("branch_id",$branch_id)->where("fee_category_id",$fee_category_id)->where("fee_collection_type_id",$fee_c_id)->first();
                         if($fee_type_db){
-                            $fee_type_id = $fee_type_db['id'];
-                            $head_name   = $fee_type_db['name'];
-                            $module_id = $fee_type_db['fee_head_type_id'];
+                            $fee_type_id = $fee_type_db->id;
+                            $head_name   = $fee_type_db->name;
+                            $module_id = $fee_type_db->fee_head_type_id;
                         }
                     }
                 }
@@ -79,8 +79,8 @@ class FeeImport implements ToCollection,WithStartRow,WithChunkReading,ShouldQueu
                 $insert = false;
                 if($common) {
                     if ($com = CommonFeeCollection::where('admin_no', '=', $this->row_data['admission_no'])->where('academic_year',$this->row_data['academic_year'])->first()) {
-                        $ftran = $com['tran_id'];
-                        $receipt_id = $com['id'];
+                        $ftran = $com->tran_id;
+                        $receipt_id = $com->id;
                         $insert = true;
                     } else {
                         $ftran = $this->get_transaction_id();
@@ -120,8 +120,8 @@ class FeeImport implements ToCollection,WithStartRow,WithChunkReading,ShouldQueu
                 } else {
                     
                     if ($fct = FinancialTransaction::where('admin_no', '=', $this->row_data['admission_no'])->where('academic_year',$this->row_data['academic_year'])->first()) {
-                        $ftran = $fct['tran_id'];
-                        $f_t_id = $fct['id'];
+                        $ftran = $fct->tran_id;
+                        $f_t_id = $fct->id;
                         $insert = true;
                     } else {
                         $ftran = $this->get_transaction_id();
@@ -152,7 +152,7 @@ class FeeImport implements ToCollection,WithStartRow,WithChunkReading,ShouldQueu
                         $result = DB::table('financial_transaction_details')->selectRaw('sum(amount) as total')->where('financial_transaction_id',$f_t_id)->get()->toArray();
                         $result = json_decode(json_encode($result), true);
                         $total_amount = $result[0]['total'];
-                        FinancialTransaction::where('financial_transaction_id', $f_t_id)
+                        FinancialTransaction::where('id', $f_t_id)
                             ->update([
                                 'amount' => $total_amount
                                 ]);
