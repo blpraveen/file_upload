@@ -8,6 +8,7 @@ $ git clone https://github.com/blpraveen/file_upload.git
 - Run in your terminal
 ```
 $ composer install
+$ copy .env.example .env
 $ php artisan key:generate
 ```
 - Setup database connection in .env file

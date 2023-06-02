@@ -14,71 +14,85 @@ class EntryModeSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('fee_types')->truncate();
-
-        EntryMode::create([
-            'entry_mode_name' => 'CONCESSION',
-        ]);
+        DB::table('entry_modes')->truncate();
 
         EntryMode::create([
             'entry_mode_name' => 'DUE',
+            'crdr' => 'D',
+            'entry_mode_no' => '0'
         ]);
 
         
-        EntryMode::create([
-            'entry_mode_name' => 'FUNDTRANSFER',
-        ]);
-
-        
-        EntryMode::create([
-            'entry_mode_name' => 'JV',
-        ]);
-        
-        EntryMode::create([
-            'entry_mode_name' => 'PMT',
-        ]);
-
-        
-        EntryMode::create([
-            'entry_mode_name' => 'PMT',
-        ]);
-
-        EntryMode::create([
-            'entry_mode_name' => 'RCPT',
-        ]);
-
-        
-        EntryMode::create([
-            'entry_mode_name' => 'REVCONCESSION',
-        ]);
-
         EntryMode::create([
             'entry_mode_name' => 'REVDUE',
-        ]);
-
-        EntryMode::create([
-            'entry_mode_name' => 'REVJV',
-        ]);
-
-        EntryMode::create([
-            'entry_mode_name' => 'REVPMT',
-        ]);
-        
-        EntryMode::create([
-            'entry_mode_name' => 'REVRCPT',
-        ]);
-
-        EntryMode::create([
-            'entry_mode_name' => 'REVSCHOLARSHIP',
+            'crdr' => 'C',
+            'entry_mode_no' => '12'
         ]);
 
         EntryMode::create([
             'entry_mode_name' => 'SCHOLARSHIP',
+            'crdr' => 'C',
+            'entry_mode_no' => '15'
+        ]);
+        
+        EntryMode::create([
+            'entry_mode_name' => 'REVSCHOLARSHIP',
+            'crdr' => 'D',
+            'entry_mode_no' => '16'
         ]);
 
         EntryMode::create([
-            'entry_mode_name' => 'VOUCHERTYPE',
+            'entry_mode_name' => 'CONCESSION',
+            'crdr' => 'C',
+            'entry_mode_no' => '15' 
         ]);
+
+        EntryMode::create([
+            'entry_mode_name' => 'RCPT',
+            'crdr' => 'C',
+            'entry_mode_no' => '0'
+        ]);
+
+        EntryMode::create([
+            'entry_mode_name' => 'REVRCPT',
+            'crdr' => 'D',
+            'entry_mode_no' => '0'
+        ]);
+
+        EntryMode::create([
+            'entry_mode_name' => 'JV',
+            'crdr' => 'C',
+            'entry_mode_no' => '14'
+        ]);
+        
+        EntryMode::create([
+            'entry_mode_name' => 'REVJV',
+            'crdr' => 'D',
+            'entry_mode_no' => '14'
+        ]);
+
+        EntryMode::create([
+            'entry_mode_name' => 'PMT',
+            'crdr' => 'D',
+            'entry_mode_no' => '1'
+        ]);
+
+    
+         
+        EntryMode::create([
+            'entry_mode_name' => 'REVPMT',
+            'crdr' => 'C',
+            'entry_mode_no' => '1'
+        ]);
+
+       
+        EntryMode::create([
+            'entry_mode_name' => 'FUNDTRANSFER',
+            'crdr' => 'B',
+            'entry_mode_no' => '1'
+        ]);
+
+        
     }
 
 }

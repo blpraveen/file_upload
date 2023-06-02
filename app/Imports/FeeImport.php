@@ -14,6 +14,7 @@ use App\Models\FeeType;
 use App\Models\FinancialTransaction;
 use App\Models\FinancialTransactionDetail;
 use App\Models\EntryMode;
+use App\Models\ExcelFee;
 use App\Models\CommonFeeCollection;
 use App\Models\CommonFeeCollectionHeadwise;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +32,34 @@ class FeeImport implements ToCollection,WithStartRow,WithChunkReading,ShouldQueu
         foreach ($rows as  $key => $row) {
             try {
                 DB::beginTransaction();
-
+                // ExcelFee::create([
+                //     "Date" => $row[1],
+                //     "Academic_year" => $row[2],
+                //     "Session" => $row[3],
+                //     "Alloted_Category" => $row[4],
+                //     "Voucher_Type" => $row[5],
+                //     "Voucher_No" => $row[6],
+                //     "Roll_No" => $row[7],
+                //     "Admission_No" => $row[8],
+                //     "Status" => $row[9],
+                //     "Fee_Category" => $row[10],
+                //     "Program" => $row[11],
+                //     "Faculty" => $row[12],
+                //     "Department" => $row[13],
+                //     "Batch" => $row[14],
+                //     "Receipt_No" => $row[15],
+                //     "Fee_Head" => $row[16],
+                //     "Due_Amount" => $row[17],
+                //     "Paid_Amount" => $row[18],
+                //     "Concession" => $row[19],
+                //     "Scholarship" => $row[20],
+                //     "Reverse_Concession" => $row[21],
+                //     "Write_off" => $row[22],
+                //     "Adjusted_Amount" => $row[23],
+                //     "Refund_Amount" => $row[24],
+                //     "Fund_Transfer" => $row[25],
+                //     "Remarks" => $row[26],
+                // ]);
                 $this->update_row_data($row);
                 
                 list($common,$amount) = $this->transaction_type();
@@ -161,6 +189,8 @@ class FeeImport implements ToCollection,WithStartRow,WithChunkReading,ShouldQueu
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
+                $exception = $e->getMessage();
+                \Log::error($exception);
             }
             
         }
@@ -214,9 +244,20 @@ class FeeImport implements ToCollection,WithStartRow,WithChunkReading,ShouldQueu
 
         return [$common,$amount];
     }
+    public function transformDate($value, $format = 'd-m-Y')
+    {
+        try {
+            return Carbon::createFromFormat($format, $value)->toDateString();
+        } catch (\ErrorException $e) {
+            return Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value))->toDateString();;
+        }
+    }
     function update_row_data($row) {
         $this->row_data = [];
-        $this->row_data['trans_date'] = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[1]))->toDateString();
+        $this->row_data['trans_date'] = $this->transformDate($row[1]);
+        //$this->row_data['trans_date'] = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[1]))->toDateString();
+        //$this->row_data['trans_date'] = $row[1];
+        //$this->row_date['trans_date'] = Carbon::createFromFormat('d-m-Y',  $row[1])->toDateString();
         $this->row_data['academic_year'] = $row[2];
         $this->row_data['financial_year'] = $row[3];
         $this->row_data['entry_mode'] = $row[5];
