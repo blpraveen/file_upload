@@ -14,4 +14,9 @@ class CommonFeeCollectionHeadwise extends Model
     protected $guarded = [];
 
     public $timestamps = false;
+
+    public function common_fee()
+    {
+        return $this->hasOne('App\Models\CommonFeeCollection');
+    }
 }

@@ -106,7 +106,7 @@ class FeeImport implements ToCollection,WithStartRow,WithChunkReading,ShouldQueu
                 }
                 $insert = false;
                 if($common) {
-                    if ($com = CommonFeeCollection::where('admin_no', '=', $this->row_data['admission_no'])->where('academic_year',$this->row_data['academic_year'])->first()) {
+                    if ($com = CommonFeeCollection::where('receipt_no', '=', $this->row_data['receipt_no'])->first()) {
                         $ftran = $com->tran_id;
                         $receipt_id = $com->id;
                         $insert = true;
@@ -147,7 +147,7 @@ class FeeImport implements ToCollection,WithStartRow,WithChunkReading,ShouldQueu
                     }
                 } else {
                     
-                    if ($fct = FinancialTransaction::where('admin_no', '=', $this->row_data['admission_no'])->where('academic_year',$this->row_data['academic_year'])->first()) {
+                    if ($fct = FinancialTransaction::where('voucher_no', '=', $this->row_data['voucher_no'])->first()) {
                         $ftran = $fct->tran_id;
                         $f_t_id = $fct->id;
                         $insert = true;
